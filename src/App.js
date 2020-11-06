@@ -1,23 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
+import Commands from './components/Commands'
+import DOM from './components/DOM'
+import Spanish from './components/Spanish'
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 function App() {
+
+  const {transcript, resetTranscript} = useSpeechRecognition()
+
+  if(!SpeechRecognition.browserSupportsSpeechRecognition()){
+    return null
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>My Voice Command App</h1>
+      <button onClick={SpeechRecognition.startListening}>Listen!</button>
+      <button onClick={SpeechRecognition.stopListening}>Stop!</button>
+      <button onClick={resetTranscript}>Reset</button>
+      <p>{transcript}</p>
+      <Commands />
+      <DOM />
+      <Spanish />
     </div>
   );
 }
